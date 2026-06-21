@@ -3,3 +3,5 @@ razorpay
 scikit-learn
 numpy
 opencv-python-headless
+matplotlib
+gunicorn
