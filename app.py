@@ -14,7 +14,7 @@ app = Flask(__name__)
 PLOT_DIR = os.path.join('static', 'plots')
 os.makedirs(PLOT_DIR, exist_ok=True)
 
-MODEL_PATH = "D:/deepfake detection/FFT+SVM/fft_svm_model.pkl"
+MODEL_PATH = "fft_svm_model.pkl"
 with open(MODEL_PATH, "rb") as f:
     clf = pickle.load(f)
 
