@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SentryFace AI | Deepfake Detection Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    
+    <style>
+        /* Ensuring the live wallpaper stays strictly behind everything */
+        #vanta-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+        }
+        .glow-card { box-shadow: 0 0 50px -10px rgba(16, 185, 129, 0.15); }
+    </style>
+</head>
+<body class="text-gray-100 min-h-screen font-sans relative pb-16">
+
+    <div id="vanta-canvas"></div>
+
+    <nav class="border-b border-gray-800/60 bg-gray-950/70 backdrop-blur-md px-8 py-4 flex justify-between items-center sticky top-0 z-50">
+        <div class="flex items-center gap-3">
+            <span class="text-2xl">🛡️</span>
+            <span class="font-bold text-xl tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">PrashantDevelops</span>
+        </div>
+        <div class="text-sm text-emerald-400 bg-emerald-950/40 border border-emerald-800/60 px-3 py-1 rounded-full font-mono">
+            Engine: FFT-SVM v1.0
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto mt-16 px-4 relative z-10">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-extrabold tracking-widest sm:text-4xl mb-4 text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400">
+                DEEPFAKE DETECTION USING FFT
+            </h1>
+            <p class="text-gray-400 text-lg">Upload a face matrix to compute frequency spectrum and execute machine learning evaluation.</p>
+        </div>
+
+        <div class="bg-gray-900/60 border border-gray-800/80 rounded-2xl p-8 glow-card backdrop-blur-xl max-w-2xl mx-auto">
+            <form action="/predict" method="post" enctype="multipart/form-data" class="space-y-6">
+                
+                <div class="border-2 border-dashed border-gray-700/60 hover:border-emerald-500/80 bg-gray-950/40 rounded-xl p-8 text-center cursor-pointer transition-all duration-300 group">
+                    <input type="file" name="file" id="fileInput" class="hidden" accept="image/*" required onchange="previewImage(event)">
+                    <label for="fileInput" class="cursor-pointer block space-y-4">
+                        <div class="text-4xl group-hover:scale-110 transition duration-300">📁</div>
+                        <div class="text-gray-300 font-medium tracking-wide">Click to upload target image</div>
+                        <div class="text-xs text-gray-500 font-mono">Supports PNG, JPG, JPEG (Optimized for human faces)</div>
+                    </label>
+                </div>
+
+                <div id="previewContainer" class="hidden flex justify-center mt-4">
+                    <img id="imagePreview" class="max-h-64 rounded-lg border border-gray-700/50 shadow-2xl">
+                </div>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold py-3.5 px-4 rounded-xl transition duration-300 shadow-lg cursor-pointer tracking-widest text-sm uppercase">
+                    Initialize Frequency Scan →
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="absolute bottom-4 right-6 text-xs text-gray-600 font-mono tracking-widest uppercase z-10">
+        Developed by <span class="text-emerald-500/80 font-bold hover:text-cyan-400 transition duration-200">PrashantDevelops</span>
+    </footer>
+
+    <script>
+        VANTA.NET({
+            el: "#vanta-canvas",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0x10b981,        /* Emerald Neon color for points */
+            backgroundColor: 0x070a13, /* Ultra deep dark tech space */
+            points: 11.00,          /* Complexity controls */
+            maxDistance: 21.00,
+            spacing: 16.00
+        });
+
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function() {
+                var output = document.getElementById('imagePreview');
+                output.src = reader.result;
+                document.getElementById('previewContainer').classList.remove('hidden');
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+</body>
+</html>
